@@ -15,12 +15,10 @@
             dataType: 'json',
             data: registerUser,
             success: function (result) {
-                console.log(result.Url);
                 //successAlert('Hecho!', "Usuario creado con éxito");
                 window.location.href = 'Login';
             },
             error: function (error) {
-                console.log(error);
                 warningAlert('Algo ha salido mal', 'Por favor intentelo más tarde');
             }
         });

@@ -13,6 +13,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,10 @@
     <Content Update="C:\Users\jose_\.nuget\packages\bootstrap\5.1.0\contentFiles\any\any\wwwroot\js\bootstrap.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\CustomModels\" />
   </ItemGroup>
 
 </Project>

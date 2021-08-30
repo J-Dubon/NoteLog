@@ -1,9 +1,29 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
+    ViewData["Title"] = "Notes";
 }
 
-<div class="">
+<div class="card">
+    <div class="card-body" style="height: 88%;">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="row d-flex">
+                    <div class="ml-auto pr-3">
+                        <button id="btnNoteNew" class="btn btn-primary"><i class="fas fa-plus-circle"></i>&nbsp; Nueva nota</button>
+                    </div>
+                </div>
+                <div id="tableNote" class="row mt-5">
+                    
+                </div>
+                <div class="row">
+                    
+                </div>
+            </div>
+            <div id="BodyNote" class="col-12 col-md-6 px-3">
 
+            </div>
+        </div>
+    </div>
 </div>
+
+<script src="~/js/Notes.js" type="text/javascript"></script>

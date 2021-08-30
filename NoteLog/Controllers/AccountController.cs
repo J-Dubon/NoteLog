@@ -19,31 +19,50 @@ namespace NoteLog.Controllers
             _signInManager = signInManager;
         }
 
+        /// <summary>
+        /// Vista del Login e iniciar sesión
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Login()
         {
             return View();
         }
 
+        /// <summary>
+        /// Vista para registrar un usuario
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Register()
         {
             return View();
         }
 
+        /// <summary>
+        /// Método para iniciar sesión
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> LoginUser(string userName, string password) {
+        public async Task<JsonResult> LoginUser(string userName, string password) {
 
-            var r = await _signInManager.PasswordSignInAsync(userName, password, false, false);
+            var loginResult = await _signInManager.PasswordSignInAsync(userName, password, false, false);
 
-            if (r.Succeeded)
+            if (loginResult.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return Json(true);
             }
             else
             {
-                return BadRequest("Todo mal");
+                return Json(false);
             }
         }
 
+        /// <summary>
+        /// Método para registrar un usuario
+        /// </summary>
+        /// <param name="registerUser"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<JsonResult> RegisterUser(RegisterUser registerUser)
         {
@@ -111,6 +130,12 @@ namespace NoteLog.Controllers
                     return Json("Hubo algún problema");
                 }
             }
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Account");
         }
     }
 }

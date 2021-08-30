@@ -1,0 +1,23 @@
+﻿@model NoteLog.Models.Notes
+
+@{
+}
+
+<form>
+    <div class="row mb-2">
+        <div class="col-6">
+            <input type="text" class="form-control" placeholder="Titulo" value="@Html.DisplayTextFor(model => model.Title)" autocomplete="off" />
+        </div>
+        <div class="col-6">
+            <input type="text" class="form-control" placeholder="Tema" value="@Html.DisplayTextFor(model => model.Subject)" autocomplete="off" />
+        </div>
+    </div>
+    
+    <textarea class="form-control" rows="30" style="max-height: 100%">@Html.DisplayTextFor(model => model.Body)</textarea>
+    
+    <div class="row my-2">
+        <div class="col text-center">
+            <button id="btnSaveNoteEdit" class="btn btn-success"><i class="far fa-save"></i>&nbsp; Guardar</button>
+        </div>
+    </div>
+</form>

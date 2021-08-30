@@ -188,3 +188,8 @@ body {
     font-size: 14px;
     color: #919aa3;
 }
+
+#tbNotesList_wrapper{
+    width: 100%;
+    padding: 0 1rem 0 1rem;
+}

@@ -8,7 +8,15 @@
             url: '/Account/LoginUser',
             type: 'POST',
             dataType: 'json',
-            data: { userName, password }
+            data: { userName, password },
+            success: function (result) {
+                if (result == true) {
+                    window.location.href = '/Notes/Notes';
+                }
+                else {
+                    warningAlert('Upss...', 'Usuario o contraseña incorrecta');
+                }
+            }
         });
     });
 });
