@@ -20,6 +20,7 @@ $(document).ready(function () {
     });
 
     // ========== Funcionalidad ============
+    // Evento para guardar una nueva nota
     $('body').on('click', '#btnSaveNoteNew', function () {
         var notes = {
             id: 0,
@@ -30,6 +31,19 @@ $(document).ready(function () {
         SaveOrUpdateNotes(notes);
     });
 
+    // Evento para modificar una nota existente
+    $('body').on('click', '#btnSaveNoteEdit', function () {
+        var notes = {
+            id: $(this).data('id'),
+            title: $('#txtTitleNoteEdit').val(),
+            subject: $('#txtSubjectNoteEdit').val(),
+            body: $('#txtBodyNoteEdit').val(),
+            createdDate: $(this).data('date')
+        }
+        SaveOrUpdateNotes(notes);
+    });
+
+    // Método generalizado para guardar o actualizar una nota
     function SaveOrUpdateNotes(notes) {
         $.ajax({
             url: 'SaveOrUpdateNote',
@@ -38,8 +52,9 @@ $(document).ready(function () {
             data: notes,
             success: function (result) {
                 if (result == true) {
-                    successAlert('Hecho!', "Nota agregada con éxito");
+                    successAlert('Hecho!', "Nota guardada con éxito");
                     $('#tableNote').load('/Notes/_NotesList');
+                    $('#BodyNote').load('/Notes/_NotesNew/');
                 }
                 else {
                     warningAlert('Algo ha salido mal', 'Por favor intentelo más tarde');

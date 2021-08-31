@@ -89,6 +89,7 @@ namespace NoteLog.Controllers
             try
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
                 if (notes.Id == 0)
                 {
                     notes.CreatedDate = DateTime.Now;
@@ -101,9 +102,11 @@ namespace NoteLog.Controllers
                 }
                 else
                 {
+                    notes.UserId = userId;
+
                     _applicationDbContext.Notes.Update(notes);
                     _applicationDbContext.SaveChanges();
-                    return Json(false);
+                    return Json(true);
                 }
             }
             catch(Exception ex)

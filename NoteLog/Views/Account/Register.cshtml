@@ -4,45 +4,47 @@
 @{
 }
 
-<div class="card login-card">
-    <div class="row no-gutters">
-        <div class="col-md-5">
-            <img src="~/img/registerImg.jpg" alt="login" class="login-card-img">
-        </div>
-        <div class="col-md-7">
-            <div class="card-body">
-                <div class="brand-wrapper">
-                    <img src="~/img/registerImg.jpg" alt="logo" class="logo">
+<div class="container">
+    <div class="card login-card">
+        <div class="row no-gutters">
+            <div class="col-md-5">
+                <img src="~/img/registerImg.jpg" alt="login" class="login-card-img">
+            </div>
+            <div class="col-md-7">
+                <div class="card-body">
+                    <div class="brand-wrapper text-center">
+                        <i class="fas fa-user-plus fa-5x"></i>
+                    </div>
+                    <div class="text-center">
+                        <p class="login-card-description">Crea una cuenta</p>
+                        <div class="abs-center">
+                            <form action="#!" class="form">
+                                <div class="form-group mb-4">
+                                    <label for="firstName" class="sr-only">Nombre</label>
+                                    <input name="firstName" id="firstName" class="form-control" placeholder="Nombre" autocomplete="off" maxlength="50">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="lastName" class="sr-only">Apellido</label>
+                                    <input name="lastName" id="lastName" class="form-control" placeholder="Apellido" autocomplete="off" maxlength="50">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="userName" class="sr-only">Nombre de usuario</label>
+                                    <input name="userName" id="userName" class="form-control" placeholder="Nombre de usuario" autocomplete="off" maxlength="50">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="sr-only">Email</label>
+                                    <input type="email" name="email" id="email" class="form-control" placeholder="ejemplo@ejemplo.com" autocomplete="off" maxlength="50">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="password" class="sr-only">Contraseña</label>
+                                    <input type="password" name="password" id="password" class="form-control" placeholder="***********" maxlength="50">
+                                </div>
+                                <input name="register" id="register" class="btn btn-block login-btn mb-4" type="button" value="Registrarse">
+                            </form>
+                        </div>
+                        <p class="login-card-footer-text"> ¿Ya tienes una cuenta? <a asp-area="" asp-controller="Account" asp-action="Login" class="text-reset">Inicia sesión</a></p>
+                    </div>
                 </div>
-                <p class="login-card-description">Crea una cuenta</p>
-                <form action="#!">
-                    <div class="form-group mb-4">
-                        <label for="firstName" class="sr-only">Nombre</label>
-                        <input name="firstName" id="firstName" class="form-control" placeholder="Nombre" autocomplete="off">
-                    </div>
-                    <div class="form-group mb-4">
-                        <label for="lastName" class="sr-only">Apellido</label>
-                        <input name="lastName" id="lastName" class="form-control" placeholder="Apellido" autocomplete="off">
-                    </div>
-                    <div class="form-group mb-4">
-                        <label for="userName" class="sr-only">Nombre de usuario</label>
-                        <input name="userName" id="userName" class="form-control" placeholder="Nombre de usuario" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="email" class="sr-only">Email</label>
-                        <input type="email" name="email" id="email" class="form-control" placeholder="ejemplo@ejemplo.com" autocomplete="off">
-                    </div>
-                    <div class="form-group mb-4">
-                        <label for="password" class="sr-only">Contraseña</label>
-                        <input type="password" name="password" id="password" class="form-control" placeholder="***********">
-                    </div>
-                    <input name="register" id="register" class="btn btn-block login-btn mb-4" type="button" value="Registrarse">
-                </form>
-                <p class="login-card-footer-text"> ¿Ya tienes una cuenta? <a asp-area="" asp-controller="Account" asp-action="Login" class="text-reset">Inicia sesión</a></p>
-                <!--<nav class="login-card-footer-nav">
-                    <a href="#!">Terms of use.</a>
-                    <a href="#!">Privacy policy</a>
-                </nav>-->
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 ﻿
 $(document).ready(function () {
-    initDtClass();
+    //initDtClass();
 });
 
 //Inicializa los Datatable
