@@ -1,8 +1,4 @@
 ﻿
-$(document).ready(function () {
-    //initDtClass();
-});
-
 //Inicializa los Datatable
 function initDtClass() {
     $('#tbNotesList').DataTable().destroy();

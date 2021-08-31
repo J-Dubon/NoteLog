@@ -132,6 +132,10 @@ namespace NoteLog.Controllers
             }
         }
 
+        /// <summary>
+        /// Método para cerrar sesión
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

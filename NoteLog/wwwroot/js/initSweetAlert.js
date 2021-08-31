@@ -1,5 +1,7 @@
-﻿//============================================
-//Success
+﻿// ==================== Funciones de alertas ========================
+
+//============================================
+// Success
 function successAlert(title, content) {
     Swal.fire({
         title: title,
@@ -57,7 +59,7 @@ function successAlertTopLeft(title, content) {
 }
 
 //===================================================
-//Info
+// Info
 function infoAlert(title, content) {
     Swal.fire({
         title: title,
@@ -116,7 +118,7 @@ function infoAlertTopLeft(title, content) {
 }
 
 //=======================================================
-//Warning
+// Warning
 function warningAlert(title, content) {
     Swal.fire({
         title: title,
@@ -175,7 +177,7 @@ function warningAlertTopLeft(title, content) {
 }
 
 //===================================================
-//Error
+// Error
 function errorAlert(title, content) {
     Swal.fire({
         title: title,
