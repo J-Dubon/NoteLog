@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NoteLog.Interfaces;
 using NoteLog.Models;
+using NoteLog.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +39,9 @@ namespace NoteLog
                 options.Password.RequiredUniqueChars = 0;
             });
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+
             services.AddControllersWithViews();
         }
 

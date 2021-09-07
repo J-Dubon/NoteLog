@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NoteLog.Interfaces;
 using NoteLog.Models;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,12 @@ namespace NoteLog.Controllers
 {
     public class AccountController : Controller
     {
-        private UserManager<ApplicationUser> _userManager;
-        private SignInManager<ApplicationUser> _signInManager;
+        private readonly IAuthenticationService _authenticationService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+
+        public AccountController(IAuthenticationService authenticationService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _authenticationService = authenticationService;
         }
 
         /// <summary>
@@ -66,70 +66,9 @@ namespace NoteLog.Controllers
         [HttpPost]
         public async Task<JsonResult> RegisterUser(RegisterUser registerUser)
         {
-            if (!ModelState.IsValid)
-            {
-                return Json(false);
-            }
+            var response = await _authenticationService.RegisterAsync(registerUser);
 
-            if (string.IsNullOrEmpty(registerUser.FirstName) && string.IsNullOrEmpty(registerUser.LastName)&& 
-                string.IsNullOrEmpty(registerUser.Password) && string.IsNullOrEmpty(registerUser.Email))
-            {
-                return Json("Revise que todos los campos estén llenos");
-            }
-            
-            var existedUser = await _userManager.FindByEmailAsync(registerUser.Email);
-
-            if(existedUser is null)
-            {
-                existedUser = await _userManager.FindByNameAsync(registerUser.UserName);
-            }
-
-            if (existedUser is not null && existedUser.PasswordHash is null)
-            {
-                var resultPassword = await _userManager.AddPasswordAsync(existedUser, registerUser.Password);
-
-                if (resultPassword.Succeeded)
-                {
-                    return Json("Usuario creado con éxito");
-                }
-                else
-                {
-                    return Json("Hubo algún problema");
-                }
-            }
-            else
-            {
-                ApplicationUser user = new()
-                {
-                    FirstName = registerUser.FirstName,
-                    LastName = registerUser.LastName,
-                    UserName = registerUser.UserName,
-                    Email = registerUser.Email
-                };
-
-                var result = await _userManager.CreateAsync(user);
-
-                if (result.Succeeded)
-                {
-                    await _userManager.SetLockoutEnabledAsync(user, true);
-
-                    var resulPassword = await _userManager.AddPasswordAsync(user, registerUser.Password);
-
-                    if (resulPassword.Succeeded)
-                    {
-                        return Json(new { Url = Url.Action("Login") });
-                    }
-                    else
-                    {
-                        return Json("Hubo algún problema");
-                    }
-
-                }
-                else
-                {
-                    return Json("Hubo algún problema");
-                }
-            }
+            return Json(response);
         }
 
         /// <summary>
