@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\CustomModels\**" />
+    <Content Remove="Models\CustomModels\**" />
+    <EmbeddedResource Remove="Models\CustomModels\**" />
+    <None Remove="Models\CustomModels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
@@ -14,6 +21,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,10 +40,6 @@
     <Content Update="C:\Users\jose_\.nuget\packages\bootstrap\5.1.0\contentFiles\any\any\wwwroot\js\bootstrap.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\CustomModels\" />
   </ItemGroup>
 
 </Project>

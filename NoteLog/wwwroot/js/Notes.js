@@ -1,14 +1,14 @@
 ﻿
-$('#tableNote').load('/Notes/_NotesList');
+$('#tableNote').load('/Notes/NotesList');
 
-$('#BodyNote').load('/Notes/_NotesNew/');
+$('#BodyNote').load('/Notes/NotesNew/');
 
 $(document).ready(function () {
 
     // =========== Vistas parciales =============
     // Carga la vista parcial de nueva nota
     $('body').on('click', '#btnNoteNew', function () {
-        $('#BodyNote').load('/Notes/_NotesNew/');
+        $('#BodyNote').load('/Notes/NotesNew/');
     });
 
     // Carga la vista parcial para visualizar / editar las notas
@@ -16,7 +16,7 @@ $(document).ready(function () {
         var btnNoteId = $(this).attr('id');
         var id = btnNoteId.replace('btnNote', '');
 
-        $('#BodyNote').load('/Notes/_NotesEdit/' + id);
+        $('#BodyNote').load('/Notes/NotesEdit/' + id);
     });
 
     // ========== Funcionalidad ============
@@ -28,7 +28,26 @@ $(document).ready(function () {
             subject: $('#txtSubjectNoteNew').val(),
             body: $('#txtBodyNoteNew').val(),
         }
-        SaveOrUpdateNotes(notes);
+
+        $.ajax({
+            url: 'SaveNote',
+            type: 'POST',
+            dataType: 'json',
+            data: notes,
+            success: function (result) {
+                if (result == true) {
+                    successAlert('Hecho!', "Nota guardada con éxito");
+                    $('#tableNote').load('/Notes/NotesList');
+                    $('#BodyNote').load('/Notes/NotesNew/');
+                }
+                else {
+                    warningAlert('Algo ha salido mal', 'Por favor intentelo más tarde');
+                }
+            },
+            error: function (error) {
+                warningAlert('Algo ha salido mal', 'Por favor intentelo más tarde');
+            }
+        });
     });
 
     // Evento para modificar una nota existente
@@ -40,21 +59,17 @@ $(document).ready(function () {
             body: $('#txtBodyNoteEdit').val(),
             createdDate: $(this).data('date')
         }
-        SaveOrUpdateNotes(notes);
-    });
 
-    // Método generalizado para guardar o actualizar una nota
-    function SaveOrUpdateNotes(notes) {
         $.ajax({
-            url: 'SaveOrUpdateNote',
+            url: 'UpdateNote',
             type: 'POST',
             dataType: 'json',
             data: notes,
             success: function (result) {
                 if (result == true) {
                     successAlert('Hecho!', "Nota guardada con éxito");
-                    $('#tableNote').load('/Notes/_NotesList');
-                    $('#BodyNote').load('/Notes/_NotesNew/');
+                    $('#tableNote').load('/Notes/NotesList');
+                    $('#BodyNote').load('/Notes/NotesNew/');
                 }
                 else {
                     warningAlert('Algo ha salido mal', 'Por favor intentelo más tarde');
@@ -64,5 +79,6 @@ $(document).ready(function () {
                 warningAlert('Algo ha salido mal', 'Por favor intentelo más tarde');
             }
         });
-    }
+    });
+
 });

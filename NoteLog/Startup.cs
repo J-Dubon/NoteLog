@@ -38,9 +38,10 @@ namespace NoteLog
                 options.Password.RequiredLength = 0;
                 options.Password.RequiredUniqueChars = 0;
             });
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUserModel, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<INotesService, NotesService>();
 
             services.AddControllersWithViews();
         }

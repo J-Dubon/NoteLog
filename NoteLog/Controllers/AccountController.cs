@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NoteLog.Interfaces;
 using NoteLog.Models;
 using System;
@@ -12,11 +13,12 @@ namespace NoteLog.Controllers
     public class AccountController : Controller
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly ILogger<AccountController> _logger;
 
-
-        public AccountController(IAuthenticationService authenticationService)
+        public AccountController(IAuthenticationService authenticationService, ILogger<AccountController> logger)
         {
             _authenticationService = authenticationService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -46,10 +48,11 @@ namespace NoteLog.Controllers
         [HttpPost]
         public async Task<JsonResult> LoginUser(string userName, string password) {
 
-            var loginResult = await _signInManager.PasswordSignInAsync(userName, password, false, false);
+            var loginResult = await _authenticationService.LoginAsync(userName, password);
 
             if (loginResult.Succeeded)
             {
+                _logger.LogInformation("Inicio de sesión para usuario {@UserName}", userName);
                 return Json(true);
             }
             else
@@ -64,7 +67,7 @@ namespace NoteLog.Controllers
         /// <param name="registerUser"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<JsonResult> RegisterUser(RegisterUser registerUser)
+        public async Task<JsonResult> RegisterUser(RegisterUserModel registerUser)
         {
             var response = await _authenticationService.RegisterAsync(registerUser);
 
@@ -77,7 +80,7 @@ namespace NoteLog.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await _authenticationService.LogoutAsync();
             return RedirectToAction("Login", "Account");
         }
     }

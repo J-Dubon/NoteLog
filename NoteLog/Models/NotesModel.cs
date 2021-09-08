@@ -26,6 +26,6 @@ namespace NoteLog.Models
         [JsonProperty("userId")]
         public string UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public ApplicationUserModel User { get; set; }
     }
 }

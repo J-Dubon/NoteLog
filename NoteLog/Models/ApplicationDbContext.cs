@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace NoteLog.Models
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUserModel>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
 
-        public DbSet<Notes> Notes {  get; set;}
+        public DbSet<NotesModel> Notes {  get; set;}
     }
 }

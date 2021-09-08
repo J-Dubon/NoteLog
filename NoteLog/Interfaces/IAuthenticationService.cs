@@ -1,4 +1,5 @@
-﻿using NoteLog.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using NoteLog.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,10 @@ namespace NoteLog.Interfaces
 {
     public interface IAuthenticationService
     {
-        Task<string> RegisterAsync(RegisterUser registerUser);
+        Task<SignInResult> LoginAsync(string userName, string password);
+
+        Task<string> RegisterAsync(RegisterUserModel registerUser);
+
+        Task LogoutAsync();
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using NoteLog.Interfaces;
 using NoteLog.Models;
 using System;
 using System.Collections.Generic;
@@ -13,11 +15,15 @@ namespace NoteLog.Controllers
     [Authorize]
     public class NotesController : Controller
     {
-        private ApplicationDbContext _applicationDbContext;
+        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly INotesService _notesService;
+        private readonly ILogger<AccountController> _logger;
 
-        public NotesController(ApplicationDbContext applicationDbContext)
+        public NotesController(ApplicationDbContext applicationDbContext, INotesService notesService, ILogger<AccountController> logger)
         {
             _applicationDbContext = applicationDbContext;
+            _notesService = notesService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -33,11 +39,11 @@ namespace NoteLog.Controllers
         /// Vista parcial para el listado de notas
         /// </summary>
         /// <returns></returns>
-        public IActionResult _NotesList()
+        public IActionResult NotesList()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var notes = _applicationDbContext.Notes.Include(x => x.User).Where(x => x.UserId == userId).OrderBy(x => x.CreatedDate)
-                .Select(x => new Notes
+                .Select(x => new NotesModel
                 {
                     Id = x.Id,
                     Title = x.Title,
@@ -45,16 +51,16 @@ namespace NoteLog.Controllers
                     Subject = x.Subject
                 }).ToList();
 
-            return PartialView(notes);
+            return PartialView("_NotesList", notes);
         }
 
         /// <summary>
         /// Vista parcial para crear notas
         /// </summary>
         /// <returns></returns>
-        public IActionResult _NotesNew()
+        public IActionResult NotesNew()
         {
-            return PartialView();
+            return PartialView("_NotesNew");
         }
 
         /// <summary>
@@ -62,11 +68,11 @@ namespace NoteLog.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult _NotesEdit(int id)
+        public IActionResult NotesEdit(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var note = _applicationDbContext.Notes.Where(x => x.UserId == userId && x.Id == id)
-                .Select(x => new Notes
+                .Select(x => new NotesModel
                 {
                     Id = x.Id,
                     Title = x.Title,
@@ -75,42 +81,49 @@ namespace NoteLog.Controllers
                     Body = x.Body
                 }).FirstOrDefault();
 
-            return PartialView(note);
+            return PartialView("_NotesEdit", note);
         }
 
         /// <summary>
-        /// Método para crear o actualizar una Nota
+        /// Método para crear una nota
         /// </summary>
         /// <param name="notes"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult SaveOrUpdateNote(Notes notes)
+        public async Task<JsonResult> SaveNote(NotesModel notes)
         {
             try
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                notes.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var resultSaveNote = await _notesService.SaveNoteAsync(notes);
 
-                if (notes.Id == 0)
-                {
-                    notes.CreatedDate = DateTime.Now;
-                    notes.UserId = userId;
-
-                    _applicationDbContext.Notes.Add(notes);
-                    _applicationDbContext.SaveChanges();
-
-                    return Json(true);
-                }
-                else
-                {
-                    notes.UserId = userId;
-
-                    _applicationDbContext.Notes.Update(notes);
-                    _applicationDbContext.SaveChanges();
-                    return Json(true);
-                }
+                return Json(true);
             }
             catch(Exception ex)
             {
+                _logger.LogError(ex.Message);
+                return Json(false);
+            }
+        }
+
+        /// <summary>
+        /// Método para actualizar una nota
+        /// </summary>
+        /// <param name="notes"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<JsonResult> UpdateNote(NotesModel notes)
+        {
+            try
+            {
+                notes.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var resultUpdateNote = await _notesService.UpdateNoteAsync(notes);
+
+                return Json(true);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
                 return Json(false);
             }
         }
