@@ -70,7 +70,6 @@ namespace NoteLog.Controllers
         public async Task<JsonResult> RegisterUser(RegisterUserModel registerUser)
         {
             var response = await _authenticationService.RegisterAsync(registerUser);
-
             return Json(response);
         }
 

@@ -25,7 +25,11 @@
                     dataType: 'json',
                     data: registerUser,
                     success: function (result) {
-                        successAlertRegister('Hecho!', "Usuario creado con éxito");
+                        if (result.code == 1) {
+                            warningAlert('Upss...', result.message);
+                        } else {
+                            successAlertRegister('Hecho!', "Usuario creado con éxito");
+                        }
                         //window.location.href = 'Login';
                     },
                     error: function (error) {

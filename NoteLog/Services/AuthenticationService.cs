@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace NoteLog.Services
 {
@@ -32,7 +33,8 @@ namespace NoteLog.Services
         {
             try
             {
-                return await _signInManager.PasswordSignInAsync(userName, password, false, false);
+                var resultSignIng = await _signInManager.PasswordSignInAsync(userName, password, false, false);
+                return resultSignIng;
             }
             catch(Exception ex)
             {
@@ -62,7 +64,7 @@ namespace NoteLog.Services
         /// </summary>
         /// <param name="registerUser"></param>
         /// <returns></returns>
-        public async Task<string> RegisterAsync(RegisterUserModel registerUser)
+        public async Task<ResultModel> RegisterAsync(RegisterUserModel registerUser)
         {
             try
             {
@@ -72,16 +74,17 @@ namespace NoteLog.Services
 
                     if (existingUser is not null)
                     {
-                        return await Task.Run(() => "Usuario existente");
+                        return new ResultModel { code = 1, message = "Usuario existente"};
                     }
                     else
                     {
-                        return await CreateUser(registerUser);
+                        var resultCreateUser = await CreateUser(registerUser);
+                        return new ResultModel { code = 0, message = resultCreateUser };
                     }
                 }
                 else
                 {
-                    return await Task.Run(() => "Revise que todos los campos estén correctamente llenados");
+                    return new ResultModel { code = 1, message = "Revise que todos los campos estén correctamente llenados" };
                 }
             }
             catch(Exception ex)

@@ -19,7 +19,7 @@ namespace NoteLog
             Log.Logger = new LoggerConfiguration()
             .Enrich.FromLogContext()
             .WriteTo.Console()
-            .WriteTo.File("log.log")
+            .WriteTo.File("log.log", LogEventLevel.Error)
             .CreateLogger();
 
             try

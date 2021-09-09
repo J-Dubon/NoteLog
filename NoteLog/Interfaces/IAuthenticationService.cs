@@ -11,7 +11,7 @@ namespace NoteLog.Interfaces
     {
         Task<SignInResult> LoginAsync(string userName, string password);
 
-        Task<string> RegisterAsync(RegisterUserModel registerUser);
+        Task<ResultModel> RegisterAsync(RegisterUserModel registerUser);
 
         Task LogoutAsync();
     }
